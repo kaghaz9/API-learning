@@ -6,8 +6,9 @@ import uuid
 app = Flask(__name__)
 app.json.ensure_ascii = False
 
-DB_NAME = "tasks.db"
-UPLOAD_FOLDER = "uploads"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_NAME = os.path.join(BASE_DIR, "tasks.db")
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -196,7 +197,7 @@ def method_not_allowed(error):
 def server_error(error):
     return jsonify({"error": "خطای داخلی سرور"}), 500
 
+init_db()
 
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
